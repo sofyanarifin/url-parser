@@ -1,0 +1,65 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <pre id="div1"></pre>
+                <textarea style="width:100%" name="txtUrl1" id="txtUrl1" cols="30" rows="10"></textarea>
+                <!-- <button id="fire1" onclick="myFunction()">fire</button> -->
+            </td>
+            <td>
+                <pre id="div2"></pre>
+                <textarea style="width:100%" name="txtUrl2" id="txtUrl2" cols="30" rows="10"></textarea>
+                <!-- <button id="fire1" onclick="myFunction()">fire</button> -->
+            </td>
+        </tr>
+    </table>
+</body>
+
+<script>
+    $("body").keydown(function (event) {
+        // console.log(event.keyCode);
+        if (event.keyCode === 13) {
+            // $("#id_of_button").click();
+            myFunction(1);
+            myFunction(2);
+        }
+    });
+
+    function myFunction(id) {
+        var str = "Hello world!";
+        var res = document.getElementById("txtUrl" + id).value;
+        var unes = unescape(res)
+        var array = unes.split("&").sort()
+        console.log(unes);
+        // var parsed = JSON.stringify(array, null, "\t");
+
+        var printArray = ""
+        var pre = "a"
+
+        array.map(function (e, i) {
+            var text = e.split("=")
+
+            if((text[0] || text[1]) && pre != text[0][0]){
+                pre = text[0][0]
+                printArray += `<tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                </tr>`
+            }
+
+            if ((text[0] || text[1]) && !text[0].includes("/")){
+                printArray += `<tr>
+                <td>${text[0]}</td>
+                <td>=</td>
+                <td>${text[1]}</td>
+                </tr>`
+            }
+
+        })
+
+        document.getElementById("div" + id).innerHTML = `<table><tr>${printArray}</tr></table>`;
+    }
+</script>
